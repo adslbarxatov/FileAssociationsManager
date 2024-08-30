@@ -1,0 +1,182 @@
+File associations manager: changes log
+
+Version 3.0:
+• The project has been renamed to “File associations manager”. Old .reb and .reu files can be
+  automatically converted to .fas files of the new application;
+• The new identity has been applied
+
+Version 2.6.9:
+• The “App about” interface has been updated
+
+Version 2.6.8:
+• XPUN update has been applied
+
+Version 2.6.6:
+• The application has been retargeted to .NET Framework 4.8.1
+
+Version 2.6.5:
+• Updated HypeHelp and Updates checker mechanics: this should fix apps freezing immediately
+  after launch (on some PCs);
+• Updated the HypeHelp links list
+
+Version 2.6.2:
+• Update for XPUN has been applied
+
+Version 2.6:
+• Core updates have been applied
+
+Version 2.5.4:
+• App now sends the path of selected icon to the clipboard;
+• Added a new version of offline help
+
+Version 2.5.3:
+• The offline quick help has been discontinued;
+• Completed the process of version control unification
+
+Version 2.5.2:
+• Updates and fixes have been applied to the update polling mechanism, as well as to other auxiliary functions
+
+Version 2.5:
+• Added a context menu for entries in all bases; it allows to edit, apply and remove
+  associations in more comfortable way;
+• New identity has been applied
+
+Version 2.4.6:
+• Added the obvious URLs for videoguide and for text guide
+
+Version 2.4.5:
+• Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations;
+• Implemented the access rights checker: it will test the availability of the Windows registry
+  and the application placement for writing and notify user about possible problems
+
+Version 2.4:
+• Rewritten the settings operator: it should fix problems with requiring administrator rights;
+• Updated the interface of message boxes
+
+Version 2.3.7:
+• Added UTF32 encoding;
+• Fixed incorrect detection of entries application for x64 systems;
+• .reb file format replaced with .reu with UTF8 text encoding;
+• The interface was adapted to Windows 10, incorrect window borders were fixed
+
+Version 2.3.5:
+• Cumulative updates have been applied
+
+Version 2.3.2:
+• App about form has been upgraded;
+• Links list for HypeHelp has been updated;
+• Fixed the updates downloader behavior in some rare conditions
+
+Version 2.3:
+• The text tips processing code has been refactored, some methods have been unified and simplified;
+• Removed some redundant code
+
+Version 2.2.7:
+• Updated the HypeHelp mechanics
+
+Version 2.2:
+• The app now uses a new, secure method for setting the size and position of windows;
+• Implemented support for HypeHelp mechanics
+
+Version 2.1.2:
+• Some minor fixes applied
+
+Version 2.1:
+• Added the ability to export saved records to .reg file;
+• Added an obvious edit button;
+• Adjusted the tabstop order;
+• XPR control has been implemented;
+• Adjusted the control of single active copy
+
+Version 2.0:
+• Implemented the ability to open localized ADP, SCP and Welcome pages;
+• Required framework version updated from 4.0 to 4.8
+
+Version 1.8.2:
+• Fixed the bug that affected the file association method
+
+Version 1.8:
+• Parsing methods for ADP and projects descriptions have been upgraded;
+• Current updates and improvements applied
+
+Version 1.7.37:
+• Implemented the updates downloading directly from the “About the app” interface. This function
+  requires DPModule. It allows you to download DPModule if it was not previously installed
+
+Version 1.7.3:
+• Current updates and improvements applied
+
+Version 1.7:
+• App got the scalable icons and the digital signature (only self-signed for now);
+• Applied some updates for core assemblies
+
+Version 1.6.17:
+• Updated internal mechanism of checking for updates (applied compatibility with new GitHub theme)
+
+Version 1.6.15:
+• Added the registry access checker: it will show recommended actions for the executable file
+  when Windows doesn’t allow saving settings;
+• Applied new elements in user interface;
+• AboutForm and HardWorkExecutor universal classes have been upgraded and improved;
+• Updated link for ADP
+
+Version 1.6.1:
+• Updated link and text presenter for ADP;
+• Applied fixed icons
+
+Version 1.6:
+• New identity applied;
+• New links to RD AAOW FDL added;
+• Added direct lab link
+
+Version 1.5.6:
+• Added ability to “ask developer” via E-mail for help, or send wish, advice or bug report;
+• Applied new paths processor
+
+Version 1.5.5:
+• Fixed bug in Policy acception interface that disallowed to accept it in offline mode at first start
+
+Version 1.5.4:
+• ADP loader has been rebuilt; policy text now formatted properly;
+• App about and Policy windows are now fully expandaple;
+• New app icon added
+
+Version 1.5.3:
+• Added ability to register file associations (on first start);
+• Added protection against multiple launch
+
+Version 1.5.2:
+• Added multi-selection for Apply and Delete functions;
+• Added keyboard control for main table:
+  - Delete key for Delete function;
+  - Insert key for Add function;
+  - Enter key for Edit function
+
+Version 1.5:
+• Cumulative changes applied
+
+Version 1.4.3i:
+• Application info interface now able to get last release’s changes log;
+• Found and fixed hidden bug that caused an error when starting the application from local network;
+• Fixed bug that caused the web page request method to fail if server disconnected
+
+Version 1.4.2p:
+• Added ability to accept/decline ADP at first start to the application info interface
+
+Version 1.4.1p:
+• Updated application info interface (more convenient font is used for now);
+• Added a button to access the Application development policy and EULA in the application info interface (due to ADP update);
+• Added automatic check for updates to the application info interface
+
+Version 1.4u:
+• Application namespace, icon and development environment have been unified;
+• Localization system has been applied; English localization for user interface has been implemented;
+• Some minor bugs fixed;
+• Entry bases will now be placed in their own subdirectory
+
+Version 1.2, 1.3:
+• Added file icons extractor: you can view icons included in EXE, DLL, control panel component or icon file;
+• Added simple interface for file extensions registration
+
+Version 1.1:
+• First application release
