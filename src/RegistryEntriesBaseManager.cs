@@ -5,15 +5,12 @@ using System.IO;
 namespace RD_AAOW
 	{
 	/// <summary>
-	/// Класс описывает интерфейс базы управляемых реестровых записей
+	/// Класс описывает интерфейс набора сопоставлений файлов
 	/// </summary>
 	public class RegistryEntriesBaseManager
 		{
 		// База реестровых записей
 		private List<RegistryEntry> entries = new List<RegistryEntry> ();
-
-		/*// Кодировка старого формата базы записей
-		private Encoding oldBaseFileEncoding = Encoding.GetEncoding (1251);*/
 
 		// Сплиттер параметра и значения в файле реестра
 		private string registryFileSplitter = "=";
@@ -33,18 +30,8 @@ namespace RD_AAOW
 		private StreamReader SR = null;
 		private StreamWriter SW = null;
 
-		// Имя файла новой базы реестровых записей
-		private const string newBaseFileName = "New set";
-
-		/*/// <summary>
-		/// Старое расширение имени файла базы реестровых записей
-		/// </summary>
-		public const string OldBaseFileExtension = ".reb";
-
-		/// <summary>
-		/// Новое расширение имени файла базы реестровых записей
-		/// </summary>
-		public const string NewBaseFileExtension = ".reu";*/
+		/*// Имя файла новой базы реестровых записей
+		private const string newBaseFileName = "New set";*/
 
 		/// <summary>
 		/// Новое расширение имени файла набора расширений файлов
@@ -72,35 +59,47 @@ namespace RD_AAOW
 		/// </summary>
 		public static string[] GetFASets ()
 			{
+			return GetFASets (RDGenerics.AppStartupPath + BasesSubdirectory);
+			}
+
+		/// <summary>
+		/// Метод формирует список файлов наборов сопоставлений для загрузки
+		/// </summary>
+		public static string[] GetFASets (string Path)
+			{
 			List<string> files = new List<string> ();
 
 			for (int i = 0; i < setsFormats.Length; i++)
-				files.AddRange (Directory.GetFiles (RDGenerics.AppStartupPath + BasesSubdirectory,
-			   "*" + setsFormats[i]));
+				files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));
 
 			return files.ToArray ();
 			}
 
 		/// <summary>
-		/// Конструктор. Загружает базу реестровых записей
+		/// Конструктор. Загружает или создаёт набор сопоставлений файлов
 		/// </summary>
 		/// <param name="BaseName">Имя создаваемой базы</param>
-		public RegistryEntriesBaseManager (string BaseName)
+		/// <param name="New">Флаг указывает на необходимость создания нового набора</param>
+		public RegistryEntriesBaseManager (string BaseName, bool New)
 			{
 			// Сохранение параметров
 			baseName = BaseName;
 
 			// Загрузка базы
-			if (LoadBase () != 0)   // Если загрузка завершается с ошибкой
+
+			// Если загрузка завершается с ошибкой
+			if (New || (LoadBase () != 0))
 				{
-				if (!SaveBase ())   // Пробуем создать / пересохранить базу
-					return;         // Если не получается, прерываем загрузку
+				// Пробуем создать базу
+				if (!SaveBase (false))
+					// Если не получается, прерываем загрузку
+					return;
 				}
 
 			isInited = true;
 			}
 
-		/// <summary>
+		/*/// <summary>
 		/// Конструктор. Создаёт пустую базу реестровых записей
 		/// </summary>
 		public RegistryEntriesBaseManager ()
@@ -113,35 +112,13 @@ namespace RD_AAOW
 				return;         // Если не получается, прерываем загрузку
 
 			isInited = true;
-			}
+			}*/
 
 		// Метод загружает базу
 		// Возвращает 0 в случае успеха, -1 в случае ошибки, 1 при необходимости пересохранить базу
 		private int LoadBase ()
 			{
-			// Попытка открытия старого файла
-			/*bool old = false;
-			try
-				{
-				FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\"
-					+ baseName + OldBaseFileExtension, FileMode.Open);
-				SR = new StreamReader (FS, oldBaseFileEncoding);
-				old = true;
-				}
-			catch
-				{
-			try
-				{
-				FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\"
-					+ baseName + NewBaseFileExtension, FileMode.Open);
-				SR = new StreamReader (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
-				}
-			catch
-				{
-				return -1;
-				}
-			}*/
-
+			// Попытка открытия
 			int i;
 			for (i = 0; i < setsFormats.Length; i++)
 				{
@@ -212,7 +189,7 @@ namespace RD_AAOW
 		/// Метод выполняет сохранение базы в файл
 		/// </summary>
 		/// <returns>Возвращает true в случае успеха</returns>
-		public bool SaveBase ()
+		public bool SaveBase (bool Update)
 			{
 			// Постсортировка
 			if (changed)
@@ -232,10 +209,13 @@ namespace RD_AAOW
 				}
 
 			// Попытка открытия базы
+			string fileName = RDGenerics.AppStartupPath + BasesSubdirectory + "\\" + baseName + setsFormats[0];
+			if (!Update && File.Exists (fileName))
+				return false;
+
 			try
 				{
-				FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\" +
-					baseName + setsFormats[0], FileMode.Create);
+				FS = new FileStream (fileName, FileMode.Create);
 				// Перезаписывает недоступный файл при необходимости
 				}
 			catch

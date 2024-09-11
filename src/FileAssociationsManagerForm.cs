@@ -47,37 +47,64 @@ namespace RD_AAOW
 				new MenuItem (DeleteRecord.Text, DeleteRecord_Click),
 				});
 
+			// Миграция из FEM
+			if (!RDGenerics.GetSettings ("MigrationDone", false))
+				{
+				RDGenerics.SetSettings ("MigrationDone", true);
+
+				// Получение пути установки
+				string femPath = RDGenerics.GetDPArrayRegistryValue ("FileExtensionsManager");
+				if (string.IsNullOrWhiteSpace (femPath))
+					goto control;
+
+				// Получение списка
+				int idx = femPath.IndexOf ('\t');
+				femPath = femPath.Substring (0, idx) + "\\REBases";
+				string[] files = RegistryEntriesBaseManager.GetFASets (femPath);
+
+				// Копирование файлов
+				for (int i = 0; i < files.Length; i++)
+					{
+					try
+						{
+						File.Copy (files[i], RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory +
+							"\\" + Path.GetFileName (files[i]));
+						}
+					catch { }
+					}
+				}
+
 			// Инициализация баз реестровых записей
 			if (Directory.Exists (RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory))
 				{
-				/*List<string> files = new List<string> ();
-				files.AddRange (Directory.GetFiles (RDGenerics.AppStartupPath +
-				   RegistryEntriesBaseManager.BasesSubdirectory,
-				   "*" + RegistryEntriesBaseManager.OldBaseFileExtension));
-				files.AddRange (Directory.GetFiles (RDGenerics.AppStartupPath +
-				   RegistryEntriesBaseManager.BasesSubdirectory,
-				   "*" + RegistryEntriesBaseManager.NewBaseFileExtension));*/
 				string[] files = RegistryEntriesBaseManager.GetFASets ();
 
 				for (int i = 0; i < files.Length; i++)
 					{
 					RegistryEntriesBaseManager re =
-						new RegistryEntriesBaseManager (Path.GetFileNameWithoutExtension (files[i]));
+						new RegistryEntriesBaseManager (Path.GetFileNameWithoutExtension (files[i]), false);
 					if (re.IsInited)
 						rebm.Add (re);
 					}
 				}
 
+			// Контроль
+			control:
 			if (rebm.Count == 0)
 				{
-				RDGenerics.MessageBox (RDMessageTypes.Information_Left,
+				/*RDGenerics.MessageBox (RDMessageTypes.Information_Left,
 					RDLocale.GetText ("BasesNotFound") + "." + RDLocale.RNRN +
 					RDLocale.GetText ("NewBaseAdded"));
 
 				_ = new RegistryEntriesBaseManager ();
 
 				this.Close ();
-				return;
+				return;*/
+				if (!AddBaseMethod ())
+					{
+					this.Close ();
+					return;
+					}
 				}
 
 			// Загрузка списка
@@ -173,7 +200,7 @@ namespace RD_AAOW
 			if (res == RDMessageButtons.ButtonOne)
 				{
 				for (int i = 0; i < rebm.Count; i++)
-					rebm[i].SaveBase ();
+					rebm[i].SaveBase (true);
 				}
 
 			// Выход
@@ -414,9 +441,32 @@ namespace RD_AAOW
 		// Добавление базы
 		private void AddBase_Click (object sender, EventArgs e)
 			{
-			RegistryEntriesBaseManager re = new RegistryEntriesBaseManager ();
+			AddBaseMethod ();
+			}
 
-			RDGenerics.LocalizedMessageBox (RDMessageTypes.Success_Center, "NewBaseAdded");
+		private bool AddBaseMethod ()
+			{
+			// Запрос названия
+			string name = RDGenerics.MessageBox (RDLocale.GetText ("NewSetName"), true, 20);
+			if (string.IsNullOrWhiteSpace (name))
+				return false;
+
+			// Попытка создания
+			RegistryEntriesBaseManager re = new RegistryEntriesBaseManager (name, true);
+			if (!re.IsInited)
+				{
+				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Left, "NewBaseNotAdded");
+				return false;
+				}
+
+			// Успешно
+			RDGenerics.LocalizedMessageBox (RDMessageTypes.Success_Center, "NewBaseAdded", 1000);
+			rebm.Add (re);
+
+			BasesCombo.Items.Add (re.BaseName);
+			BasesCombo.SelectedIndex = BasesCombo.Items.Count - 1;
+
+			return true;
 			}
 
 		// Запрос справки

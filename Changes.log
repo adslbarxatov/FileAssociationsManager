@@ -1,5 +1,9 @@
 File associations manager: changes log
 
+Version 3.0.5:
+• The interface of creation of the new set has been completely rebuilt;
+• Added the ability to automatically migrate sets from File extensions manager
+
 Version 3.0:
 • The project has been renamed to “File associations manager”. Old .reb and .reu files can be
   automatically converted to .fas files of the new application;

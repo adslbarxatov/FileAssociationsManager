@@ -226,7 +226,7 @@
     <value>Total: </value>
   </data>
   <data name="NewBaseAdded" xml:space="preserve">
-    <value>Application will create an empty sample file. Give it a convenient name, then run the utility again</value>
+    <value>The set has been added successfully</value>
   </data>
   <data name="NoAccessText" xml:space="preserve">
     <value>Unavailable: </value>
@@ -281,5 +281,13 @@
   </data>
   <data name="UnsupportedCharacter" xml:space="preserve">
     <value>The file extension field contains invalid character [{0: S}]</value>
+  </data>
+  <data name="NewSetName" xml:space="preserve">
+    <value>Specify the name for the new set</value>
+  </data>
+  <data name="NewBaseNotAdded" xml:space="preserve">
+    <value>Failed to create the new set.
+
+The name shoudn’t have special characters and shoudn’t interfere with existing sets</value>
   </data>
 </root>

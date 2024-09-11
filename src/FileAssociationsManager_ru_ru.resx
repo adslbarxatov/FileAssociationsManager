@@ -226,7 +226,7 @@
     <value>Всего: </value>
   </data>
   <data name="NewBaseAdded" xml:space="preserve">
-    <value>Программа создаст пустой файл-образец. Дайте ему удобное имя, после чего запустите утилиту снова</value>
+    <value>Набор успешно добавлен</value>
   </data>
   <data name="NoAccessText" xml:space="preserve">
     <value>Недоступны: </value>
@@ -281,5 +281,13 @@
   </data>
   <data name="UnsupportedCharacter" xml:space="preserve">
     <value>Поле расширения файла содержит недопустимый символ [{0:S}]</value>
+  </data>
+  <data name="NewSetName" xml:space="preserve">
+    <value>Укажите название для нового набора</value>
+  </data>
+  <data name="NewBaseNotAdded" xml:space="preserve">
+    <value>Не удалось создать новый набор.
+
+Нзавание не должно содержать специальных символов и не должно пересекаться с уже существующими наборами</value>
   </data>
 </root>
