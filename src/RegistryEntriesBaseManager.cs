@@ -30,9 +30,6 @@ namespace RD_AAOW
 		private StreamReader SR = null;
 		private StreamWriter SW = null;
 
-		/*// Имя файла новой базы реестровых записей
-		private const string newBaseFileName = "New set";*/
-
 		/// <summary>
 		/// Новое расширение имени файла набора расширений файлов
 		/// </summary>
@@ -98,21 +95,6 @@ namespace RD_AAOW
 
 			isInited = true;
 			}
-
-		/*/// <summary>
-		/// Конструктор. Создаёт пустую базу реестровых записей
-		/// </summary>
-		public RegistryEntriesBaseManager ()
-			{
-			// Сохранение параметров
-			baseName = newBaseFileName;
-
-			// Загрузка базы
-			if (!SaveBase ())   // Пробуем создать базу
-				return;         // Если не получается, прерываем загрузку
-
-			isInited = true;
-			}*/
 
 		// Метод загружает базу
 		// Возвращает 0 в случае успеха, -1 в случае ошибки, 1 при необходимости пересохранить базу

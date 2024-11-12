@@ -92,14 +92,6 @@ namespace RD_AAOW
 			control:
 			if (rebm.Count == 0)
 				{
-				/*RDGenerics.MessageBox (RDMessageTypes.Information_Left,
-					RDLocale.GetText ("BasesNotFound") + "." + RDLocale.RNRN +
-					RDLocale.GetText ("NewBaseAdded"));
-
-				_ = new RegistryEntriesBaseManager ();
-
-				this.Close ();
-				return;*/
 				if (!AddBaseMethod ())
 					{
 					this.Close ();

@@ -1,5 +1,8 @@
 File associations manager: changes log
 
+Version 3.0.6:
+• The “App about” interface has been updated
+
 Version 3.0.5:
 • The interface of creation of the new set has been completely rebuilt;
 • Added the ability to automatically migrate sets from File extensions manager
