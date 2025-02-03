@@ -101,7 +101,7 @@ namespace RD_AAOW
 
 			if (!re.IsValid)
 				{
-				RDGenerics.LocalizedMessageBox (RDMessageTypes.Warning_Center, "EntryIsIncorrect");
+				RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "EntryIsIncorrect");
 				return;
 				}
 
