@@ -97,8 +97,8 @@ namespace RD_AAOW
 			bool DeletePath, bool DeleteName)
 			{
 			// Переменные
-			char[] pathSplitters = new char[] { '\\' };
-			char[] valuesSplitters = new char[] { '\"', '[', ']' };
+			char[] pathSplitters = ['\\'];
+			char[] valuesSplitters = ['\"', '[', ']'];
 
 			// Контроль пути
 			string[] values = Path.Split (valuesSplitters, StringSplitOptions.RemoveEmptyEntries);
@@ -310,7 +310,7 @@ namespace RD_AAOW
 		// - тип числа сохраняется
 		// - байты нумеруются с нуля от младшего к старшему
 		// - из номера байта используются только первые три бита
-		private Int64 ExcludeByte (Int64 Value, byte ByteNumber)
+		private static Int64 ExcludeByte (Int64 Value, byte ByteNumber)
 			{
 			return (Value >> (8 * (ByteNumber % 8))) & 0xFFL;
 			}

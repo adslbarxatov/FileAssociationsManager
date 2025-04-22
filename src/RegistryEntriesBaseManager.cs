@@ -10,20 +10,20 @@ namespace RD_AAOW
 	public class RegistryEntriesBaseManager
 		{
 		// База реестровых записей
-		private List<RegistryEntry> entries = new List<RegistryEntry> ();
+		private List<RegistryEntry> entries = [];
 
 		// Сплиттер параметра и значения в файле реестра
 		private string registryFileSplitter = "=";
 
 		// Сплиттер записей в базе
-		private char[] baseFileSplitters = new char[] { '\x1' };
+		private char[] baseFileSplitters = ['\x1'];
 
 		// Флаг указывает, что в базу были внесены изменения
 		private bool changed = true;
 
 		// Список представлений записей в базе
-		private List<string> ebp = new List<string> ();
-		private List<RegistryEntryApplicationResults> esp = new List<RegistryEntryApplicationResults> ();
+		private List<string> ebp = [];
+		private List<RegistryEntryApplicationResults> esp = [];
 
 		// Файловые дескрипторы
 		private FileStream FS = null;
@@ -40,11 +40,11 @@ namespace RD_AAOW
 				return setsFormats[0];
 				}
 			}
-		private static string[] setsFormats = new string[] {
+		private static string[] setsFormats = [
 			".fas",
 			".reu",
 			".reb",
-			};
+			];
 
 		/// <summary>
 		/// Субдиректория для хранения сохранённых баз реестровых записей
@@ -64,7 +64,7 @@ namespace RD_AAOW
 		/// </summary>
 		public static string[] GetFASets (string Path)
 			{
-			List<string> files = new List<string> ();
+			List<string> files = [];
 
 			for (int i = 0; i < setsFormats.Length; i++)
 				files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));

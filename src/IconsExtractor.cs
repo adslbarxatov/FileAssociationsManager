@@ -122,8 +122,8 @@ namespace RD_AAOW
 				}
 
 			// Проверка на наличие иконок
-			IntPtr bigIcon = IntPtr.Zero,
-				smallIcon = IntPtr.Zero;
+			IntPtr bigIcon = IntPtr.Zero;
+			IntPtr smallIcon = IntPtr.Zero;
 			iconsCount = ExtractIconExA (OFDialog.FileName, -1, ref bigIcon, ref smallIcon, 1);
 			if (iconsCount == 0)
 				{
@@ -134,10 +134,10 @@ namespace RD_AAOW
 				}
 
 			// Извлечение иконок
-			List<Bitmap> icons = new List<Bitmap> ();
+			List<Bitmap> icons = [];
 			for (UInt32 i = 0; i < iconsCount; i++)
 				{
-				ExtractIconExA (OFDialog.FileName, (Int32)i, ref bigIcon, ref smallIcon, 1);
+				_ = ExtractIconExA (OFDialog.FileName, (Int32)i, ref bigIcon, ref smallIcon, 1);
 				icons.Add (Icon.FromHandle (bigIcon).ToBitmap ());      // Если делать проще, теряется альфа-канал
 				}
 
@@ -242,8 +242,8 @@ namespace RD_AAOW
 		/// <returns>Количество иконок</returns>
 		public static uint GetIconsCount (string FileName)
 			{
-			IntPtr bigIcon = IntPtr.Zero,
-				smallIcon = IntPtr.Zero;
+			IntPtr bigIcon = IntPtr.Zero;
+			IntPtr smallIcon = IntPtr.Zero;
 			return ExtractIconExA (FileName, -1, ref bigIcon, ref smallIcon, 1);
 			}
 		}

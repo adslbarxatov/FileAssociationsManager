@@ -84,7 +84,7 @@ namespace RD_AAOW
 					}
 				}
 
-			uint a = IconsExtractor.GetIconsCount ("s");
+			/*uint a = IconsExtractor.GetIconsCount ("s");*/
 
 			// Пробуем добавлять
 			if (!rebm.AddEntry (new RegistryEntry ("HKEY_CLASSES_ROOT\\." + FileExtension.Text, "",

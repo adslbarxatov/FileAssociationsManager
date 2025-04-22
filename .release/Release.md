@@ -1,3 +1,2 @@
-_Changes for v 3.0.9_:
-- Current updates have been applied;
-- Updated the internal assemblies
+_Changes for v 3.1_:
+- The application has been migrated to `.NET 9.0` from `.NET Framework 4.8.1`

@@ -12,7 +12,7 @@ namespace RD_AAOW
 	public partial class FileAssociationsManagerForm: Form
 		{
 		// Переменные
-		private List<RegistryEntriesBaseManager> rebm = new List<RegistryEntriesBaseManager> ();
+		private List<RegistryEntriesBaseManager> rebm = [];
 		private uint applied = 0, partiallyApplied = 0, notApplied = 0, noAccess = 0;
 
 		/// <summary>
@@ -41,11 +41,12 @@ namespace RD_AAOW
 				}
 
 			MainTable.Columns.Add ("Entries", "Entries");
-			MainTable.ContextMenu = new ContextMenu (new MenuItem[] {
-				new MenuItem (EditRecord.Text, EditRecord_Click),
-				new MenuItem (Apply.Text, Apply_Click),
-				new MenuItem (DeleteRecord.Text, DeleteRecord_Click),
-				});
+			MainTable.ContextMenuStrip = new ContextMenuStrip ();
+			MainTable.ContextMenuStrip.ShowImageMargin = false;
+
+			MainTable.ContextMenuStrip.Items.Add (EditRecord.Text, null, EditRecord_Click);
+			MainTable.ContextMenuStrip.Items.Add (Apply.Text, null, Apply_Click);
+			MainTable.ContextMenuStrip.Items.Add (DeleteRecord.Text, null, DeleteRecord_Click);
 
 			// Миграция из FEM
 			if (!RDGenerics.GetSettings ("MigrationDone", false))
@@ -212,7 +213,7 @@ namespace RD_AAOW
 				return;
 
 			// Удаление
-			List<int> idx = new List<int> ();
+			List<int> idx = [];
 			foreach (DataGridViewRow r in MainTable.SelectedRows)
 				idx.Add (r.Index);
 			idx.Sort ();
@@ -332,7 +333,7 @@ namespace RD_AAOW
 				return;
 
 			// Извлечение выборки
-			List<int> idx = new List<int> ();
+			List<int> idx = [];
 			foreach (DataGridViewRow r in MainTable.SelectedRows)
 				idx.Add (r.Index);
 			idx.Sort ();
@@ -471,7 +472,7 @@ namespace RD_AAOW
 		private void MainTable_CellContextClick (object sender, DataGridViewCellMouseEventArgs e)
 			{
 			if (e.Button == MouseButtons.Right)
-				MainTable.ContextMenu.Show ((Control)sender, new Point (e.X,
+				MainTable.ContextMenuStrip.Show ((Control)sender, new Point (e.X,
 					e.Y + (e.RowIndex - MainTable.FirstDisplayedScrollingRowIndex) * MainTable.RowTemplate.Height));
 			}
 
