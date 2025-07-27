@@ -67,7 +67,13 @@ namespace RD_AAOW
 			List<string> files = [];
 
 			for (int i = 0; i < setsFormats.Length; i++)
-				files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));
+				{
+				try
+					{
+					files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));
+					}
+				catch { }
+				}
 
 			return files.ToArray ();
 			}

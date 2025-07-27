@@ -127,7 +127,7 @@ namespace RD_AAOW
 			iconsCount = ExtractIconExA (OFDialog.FileName, -1, ref bigIcon, ref smallIcon, 1);
 			if (iconsCount == 0)
 				{
-				RDInterface.MessageBox (RDMessageTypes.Information_Center,
+				RDInterface.MessageBox (RDMessageFlags.Information | RDMessageFlags.CenterText,
 					string.Format (RDLocale.GetText ("IconsNotFound"), OFDialog.FileName));
 				this.Close ();
 				return;

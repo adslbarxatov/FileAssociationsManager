@@ -1,5 +1,8 @@
 File associations manager: changes log
 
+Version 3.1.3:
+• Fixed the first start failure when app tries to locate FASets directory
+
 Version 3.1.2:
 • Internal assemblies have been updated
 

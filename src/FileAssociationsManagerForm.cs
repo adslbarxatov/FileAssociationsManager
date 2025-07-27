@@ -185,7 +185,7 @@ namespace RD_AAOW
 
 		private void FileAssociationsManagerForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
-			RDMessageButtons res = RDInterface.LocalizedMessageBox (RDMessageTypes.Question_Center,
+			RDMessageButtons res = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
 				"SaveBasesMessage", RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No,
 				RDLDefaultTexts.Button_Cancel);
 
@@ -208,7 +208,7 @@ namespace RD_AAOW
 			if (MainTable.SelectedRows.Count <= 0)
 				return;
 
-			if (RDInterface.LocalizedMessageBox (RDMessageTypes.Question_Center, "RemoveEntry",
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText, "RemoveEntry",
 				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) != RDMessageButtons.ButtonOne)
 				return;
 
@@ -239,8 +239,8 @@ namespace RD_AAOW
 			if (MainTable.SelectedRows.Count <= 0)
 				return;
 
-			if (RDInterface.LocalizedMessageBox (RDMessageTypes.Question_Center, "ApplyEntry",
-				RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No) !=
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
+				"ApplyEntry", RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No) !=
 				RDMessageButtons.ButtonOne)
 				return;
 
@@ -262,7 +262,7 @@ namespace RD_AAOW
 					}
 
 				if (!string.IsNullOrWhiteSpace (msg))
-					RDInterface.MessageBox (RDMessageTypes.Warning_Center, msg);
+					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText, msg);
 				}
 
 			// Обновление таблицы
@@ -275,20 +275,20 @@ namespace RD_AAOW
 		private void ApplyAll_Click (object sender, EventArgs e)
 			{
 			// Контроль
-			if (RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "ApplyAllEntries",
-				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) !=
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+				"ApplyAllEntries", RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) !=
 				RDMessageButtons.ButtonOne)
 				return;
 
-			if (RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Center, "ApplyAllEntries2",
-				RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No) !=
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+				"ApplyAllEntries2", RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No) !=
 				RDMessageButtons.ButtonTwo)
 				return;
 
 			// Применение записей
 			uint res = rebm[BasesCombo.SelectedIndex].ApplyAllEntries ();
 
-			RDInterface.MessageBox (RDMessageTypes.Success_Center,
+			RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
 				string.Format (RDLocale.GetText ("EntriesApplied"), res,
 				rebm[BasesCombo.SelectedIndex].EntriesCount));
 
@@ -312,7 +312,7 @@ namespace RD_AAOW
 			// Загрузка
 			uint res = rebm[BasesCombo.SelectedIndex].LoadRegistryFile (OFDialog.FileName);
 
-			RDInterface.MessageBox (RDMessageTypes.Success_Center,
+			RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
 				RDLocale.GetText ("EntriesAdded") + res.ToString ());
 
 			// Обновление таблицы
@@ -344,7 +344,7 @@ namespace RD_AAOW
 
 			// Выполнение
 			if (!rebm[BasesCombo.SelectedIndex].SaveRegistryFile (SFDialog.FileName, idx))
-				RDInterface.MessageBox (RDMessageTypes.Warning_Center,
+				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
 					string.Format (RDLocale.GetDefaultText (RDLDefaultTexts.Message_SaveFailure_Fmt),
 					SFDialog.FileName));
 			}
@@ -448,12 +448,13 @@ namespace RD_AAOW
 			RegistryEntriesBaseManager re = new RegistryEntriesBaseManager (name, true);
 			if (!re.IsInited)
 				{
-				RDInterface.LocalizedMessageBox (RDMessageTypes.Warning_Left, "NewBaseNotAdded");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning, "NewBaseNotAdded");
 				return false;
 				}
 
 			// Успешно
-			RDInterface.LocalizedMessageBox (RDMessageTypes.Success_Center, "NewBaseAdded", 1000);
+			RDInterface.LocalizedMessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
+				"NewBaseAdded", 1000);
 			rebm.Add (re);
 
 			BasesCombo.Items.Add (re.BaseName);
