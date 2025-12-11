@@ -1,2 +1,3 @@
-_Changes for v 3.1.6_:
+_Changes for v 3.2_:
+- App has been migrated to `.NET 10`;
 - Internal assemblies have been updated
