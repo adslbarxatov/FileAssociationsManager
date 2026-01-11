@@ -43,6 +43,7 @@ namespace RD_AAOW
 			InitializeComponent ();
 			this.AcceptButton = Apply;
 			this.CancelButton = Abort;
+			RDGenerics.LoadWindowDimensions (this);
 
 			// Сохранение параметров
 			editedEntry = Entry;
@@ -110,6 +111,12 @@ namespace RD_AAOW
 			editedEntry = (RegistryEntry)re.Clone ();
 			confirmed = true;
 			this.Close ();
+			}
+
+		// Закрытие окна
+		private void RegistryEntryEditor_FormClosing (object sender, FormClosingEventArgs e)
+			{
+			RDGenerics.SaveWindowDimensions (this);
 			}
 		}
 	}

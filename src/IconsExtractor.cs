@@ -87,6 +87,7 @@ namespace RD_AAOW
 			InitializeComponent ();
 			this.AcceptButton = SelectButton;
 			this.CancelButton = AbortButton;
+			RDGenerics.LoadWindowDimensions (this);
 
 			// Настройка контролов
 			OFDialog.Title = RDLocale.GetText ("IE_OFDialogTitle");
@@ -220,6 +221,7 @@ namespace RD_AAOW
 		private void IconsExtractor_FormClosing (object sender, FormClosingEventArgs e)
 			{
 			e.Cancel = !allowExit;
+			RDGenerics.SaveWindowDimensions (this);
 			}
 
 		private void SelectButton_Click (object sender, EventArgs e)

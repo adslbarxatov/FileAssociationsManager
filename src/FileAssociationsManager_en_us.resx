@@ -290,4 +290,19 @@
 
 The name shoudn’t have special characters and shoudn’t interfere with existing sets</value>
   </data>
+  <data name="ButtonsPanel_AddRecord" xml:space="preserve">
+    <value>&amp;Add record</value>
+  </data>
+  <data name="ButtonsPanel_EditRecord" xml:space="preserve">
+    <value>&amp;Edit record</value>
+  </data>
+  <data name="MActionText" xml:space="preserve">
+    <value>&amp;Action</value>
+  </data>
+  <data name="ButtonsPanel_AddBase" xml:space="preserve">
+    <value>Add new se&amp;t</value>
+  </data>
+  <data name="MHelpText" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
 </root>

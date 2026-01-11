@@ -290,4 +290,19 @@
 
 Нзавание не должно содержать специальных символов и не должно пересекаться с уже существующими наборами</value>
   </data>
+  <data name="ButtonsPanel_AddRecord" xml:space="preserve">
+    <value>&amp;Добавить запись</value>
+  </data>
+  <data name="ButtonsPanel_EditRecord" xml:space="preserve">
+    <value>&amp;Изменить запись</value>
+  </data>
+  <data name="MActionText" xml:space="preserve">
+    <value>&amp;Действие</value>
+  </data>
+  <data name="ButtonsPanel_AddBase" xml:space="preserve">
+    <value>Добавить новый на&amp;бор</value>
+  </data>
+  <data name="MHelpText" xml:space="preserve">
+    <value>&amp;Справка</value>
+  </data>
 </root>

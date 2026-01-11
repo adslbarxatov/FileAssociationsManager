@@ -36,6 +36,7 @@ namespace RD_AAOW
 			InitializeComponent ();
 			this.AcceptButton = Apply;
 			this.CancelButton = Abort;
+			RDGenerics.LoadWindowDimensions (this);
 
 			OFDialog.Title = RDLocale.GetText ("ER_OFDialogText");
 			OFDialog.Filter = RDLocale.GetText ("ER_OFDialogFilter");
@@ -134,6 +135,12 @@ namespace RD_AAOW
 			{
 			if (OFDialog.ShowDialog () == DialogResult.OK)
 				FileApplication.Text = OFDialog.FileName;
+			}
+
+		// Закрытие окна
+		private void ExtensionRegistrator_FormClosing (object sender, FormClosingEventArgs e)
+			{
+			RDGenerics.SaveWindowDimensions (this);
 			}
 		}
 	}

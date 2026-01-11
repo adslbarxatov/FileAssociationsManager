@@ -27,10 +27,11 @@ namespace RD_AAOW
 		private void MainForm_Load (object sender, EventArgs e)
 			{
 			// Настройка контролов
-			this.Text = ProgramDescription.AssemblyTitle;
+			/*this.Text = ProgramDescription.AssemblyTitle;*/
+			this.Text = RDGenerics.DefaultAssemblyVisibleName;
 			RDGenerics.LoadWindowDimensions (this);
 
-			LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);
+			/*LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);
 			try
 				{
 				LanguageCombo.SelectedIndex = (int)RDLocale.CurrentLanguage;
@@ -38,15 +39,16 @@ namespace RD_AAOW
 			catch
 				{
 				LanguageCombo.SelectedIndex = 0;
-				}
+				}*/
+			MLanguage_Click (null, null);
 
 			MainTable.Columns.Add ("Entries", "Entries");
 			MainTable.ContextMenuStrip = new ContextMenuStrip ();
 			MainTable.ContextMenuStrip.ShowImageMargin = false;
 
-			MainTable.ContextMenuStrip.Items.Add (EditRecord.Text, null, EditRecord_Click);
-			MainTable.ContextMenuStrip.Items.Add (Apply.Text, null, Apply_Click);
-			MainTable.ContextMenuStrip.Items.Add (DeleteRecord.Text, null, DeleteRecord_Click);
+			MainTable.ContextMenuStrip.Items.Add (MEditRecord.Text, null, MEditRecord_Click);
+			MainTable.ContextMenuStrip.Items.Add (MApply.Text, null, MApply_Click);
+			MainTable.ContextMenuStrip.Items.Add (MDeleteRecord.Text, null, MDeleteRecord_Click);
 
 			// Миграция из FEM
 			if (!RDGenerics.GetSettings ("MigrationDone", false))
@@ -109,7 +111,7 @@ namespace RD_AAOW
 			UpdateTable ();
 			}
 
-		// Изменение размера окна
+		/*// Изменение размера окна
 		private void MainForm_Resize (object sender, EventArgs e)
 			{
 			MainTable.Width = this.Width - 32;
@@ -117,7 +119,7 @@ namespace RD_AAOW
 
 			ButtonsPanel.Top = this.Height - 147;
 			ButtonsPanel.Left = (this.Width - ButtonsPanel.Width) / 2 - 4;
-			}
+			}*/
 
 		// Обновление таблицы
 		private void UpdateTable ()
@@ -178,7 +180,7 @@ namespace RD_AAOW
 			}
 
 		// Выход из программы
-		private void Exit_Click (object sender, EventArgs e)
+		private void MExit_Click (object sender, EventArgs e)
 			{
 			this.Close ();
 			}
@@ -202,13 +204,13 @@ namespace RD_AAOW
 			}
 
 		// Удаление записи
-		private void DeleteRecord_Click (object sender, EventArgs e)
+		private void MDeleteRecord_Click (object sender, EventArgs e)
 			{
 			// Контроль
 			if (MainTable.SelectedRows.Count <= 0)
 				return;
 
-			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText, "RemoveEntry",
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText, "RemoveEntry",
 				RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) != RDMessageButtons.ButtonOne)
 				return;
 
@@ -233,7 +235,7 @@ namespace RD_AAOW
 			}
 
 		// Применение выбранной записи
-		private void Apply_Click (object sender, EventArgs e)
+		private void MApply_Click (object sender, EventArgs e)
 			{
 			// Контроль
 			if (MainTable.SelectedRows.Count <= 0)
@@ -272,7 +274,7 @@ namespace RD_AAOW
 			}
 
 		// Применение всех записей
-		private void ApplyAll_Click (object sender, EventArgs e)
+		private void MApplyAll_Click (object sender, EventArgs e)
 			{
 			// Контроль
 			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
@@ -303,7 +305,7 @@ namespace RD_AAOW
 			}
 
 		// Загрузка из файла реестра
-		private void LoadRegFile_Click (object sender, EventArgs e)
+		private void MLoadRegFile_Click (object sender, EventArgs e)
 			{
 			// Контроль
 			if (OFDialog.ShowDialog () != DialogResult.OK)
@@ -326,7 +328,7 @@ namespace RD_AAOW
 			}
 
 		// Сохранение в файл реестра
-		private void SaveRegFile_Click (object sender, EventArgs e)
+		private void MSaveRegFile_Click (object sender, EventArgs e)
 			{
 			// Контроль
 			if (MainTable.SelectedRows.Count <= 0)
@@ -350,7 +352,7 @@ namespace RD_AAOW
 			}
 
 		// Добавление записи
-		private void AddRecord_Click (object sender, EventArgs e)
+		private void MAddRecord_Click (object sender, EventArgs e)
 			{
 			// Добавление
 			int row = 0;
@@ -375,10 +377,12 @@ namespace RD_AAOW
 				if (MainTable.SelectedRows.Count > 0)
 					MainTable.CurrentCell = MainTable.Rows[row].Cells[0];
 				}
+
+			ree.Dispose ();
 			}
 
 		// Редактирование записей
-		private void EditRecord_Click (object sender, EventArgs e)
+		private void MEditRecord_Click (object sender, EventArgs e)
 			{
 			EditRecord_Click (null, null);
 			}
@@ -399,15 +403,17 @@ namespace RD_AAOW
 			rebm[BasesCombo.SelectedIndex].DeleteEntry ((uint)row);
 			rebm[BasesCombo.SelectedIndex].AddEntry (ree.EditedEntry);
 
+			ree.Dispose ();
+
 			// Обновление таблицы
 			UpdateTable ();
 			MainTable.CurrentCell = MainTable.Rows[row].Cells[0];
 
 			// Запрос на применение
-			Apply_Click (null, null);
+			MApply_Click (null, null);
 			}
 
-		private void MainTable_KeyDown (object sender, KeyEventArgs e)
+		/*private void MainTable_KeyDown (object sender, KeyEventArgs e)
 			{
 			switch (e.KeyCode)
 				{
@@ -423,7 +429,7 @@ namespace RD_AAOW
 					DeleteRecord_Click (null, null);
 					break;
 				}
-			}
+			}*/
 
 		// Выбор текущей базы
 		private void BasesCombo_SelectedIndexChanged (object sender, EventArgs e)
@@ -432,7 +438,7 @@ namespace RD_AAOW
 			}
 
 		// Добавление базы
-		private void AddBase_Click (object sender, EventArgs e)
+		private void MAddBase_Click (object sender, EventArgs e)
 			{
 			AddBaseMethod ();
 			}
@@ -464,7 +470,8 @@ namespace RD_AAOW
 			}
 
 		// Запрос справки
-		private void GetHelp_Click (object sender, EventArgs e)
+		/*private void GetHelp_Click (object sender, EventArgs e)*/
+		private void MAppAbout_Click (object sender, EventArgs e)
 			{
 			RDInterface.ShowAbout (false);
 			}
@@ -478,37 +485,65 @@ namespace RD_AAOW
 			}
 
 		// Просмотр иконок
-		private void FindIcon_Click (object sender, EventArgs e)
+		private void MFindIcon_Click (object sender, EventArgs e)
 			{
 			IconsExtractor ie = new IconsExtractor ();
 
 			if (ie.SelectedIconNumber >= 0)
 				RDGenerics.SendToClipboard (ie.SelectedIconFile + "," + ie.SelectedIconNumber.ToString (), true);
+
+			ie.Dispose ();
 			}
 
 		// Регистрация расширения
-		private void RegExtension_Click (object sender, EventArgs e)
+		private void MRegExtension_Click (object sender, EventArgs e)
 			{
 			ExtensionRegistrator er = new ExtensionRegistrator (rebm[BasesCombo.SelectedIndex]);
 			if (er.Confirmed)
 				UpdateTable ();
+			er.Dispose ();
 			}
 
 		// Локализация формы
-		private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)
+		/*private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)*/
+		private void MLanguage_Click (object sender, EventArgs e)
 			{
-			// Сохранение языка
-			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;
+			/*// Сохранение языка
+			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;*/
+
+			// Запрос языка
+			if ((sender != null) && !RDInterface.MessageBox ())
+				return;
 
 			// Локализация
 			OFDialog.Title = SFDialog.Title = RDLocale.GetText ("FEMF_OFDialogTitle");
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("FEMF_OFDialogFilter");
 
 			RDLocale.SetControlsText (this);
-			RDLocale.SetControlsText (ButtonsPanel);
+			/*RDLocale.SetControlsText (ButtonsPanel);
 			AddRecord.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Add);
 			EditRecord.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Edit);
-			Exit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+			Exit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);*/
+
+			MAction.Text = RDLocale.GetText ("MActionText");
+			MAddRecord.Text = RDLocale.GetText ("ButtonsPanel_AddRecord");
+			MEditRecord.Text = RDLocale.GetText ("ButtonsPanel_EditRecord");
+			MDeleteRecord.Text = RDLocale.GetText ("ButtonsPanel_DeleteRecord");
+
+			MRegExtension.Text = RDLocale.GetText ("ButtonsPanel_RegExtension");
+			MFindIcon.Text = RDLocale.GetText ("ButtonsPanel_FindIcon");
+			MAddBase.Text = RDLocale.GetText ("ButtonsPanel_AddBase");
+
+			MApply.Text = RDLocale.GetText ("ButtonsPanel_Apply");
+			MApplyAll.Text = RDLocale.GetText ("ButtonsPanel_ApplyAll");
+
+			MLoadFile.Text = RDLocale.GetText ("ButtonsPanel_LoadRegFile");
+			MSaveFile.Text = RDLocale.GetText ("ButtonsPanel_SaveRegFile");
+			MExit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+
+			MHelp.Text = RDLocale.GetText ("MHelpText");
+			MLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguageNC);
+			MAppAbout.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
 
 			UpdateResults ();
 			}
