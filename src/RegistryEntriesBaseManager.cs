@@ -213,7 +213,7 @@ namespace RD_AAOW
 			SW = new StreamWriter (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
 
 			// Запись
-			SW.Write (/*ProgramDescription.AssemblyTitle*/ RDGenerics.DefaultAssemblyTitle + "; timestamp: " +
+			SW.Write (RDGenerics.DefaultAssemblyTitle + "; timestamp: " +
 				DateTime.Now.ToString ("dd.MM.yyyy, HH:mm") + RDLocale.RN);
 
 			for (int i = 0; i < entries.Count; i++)

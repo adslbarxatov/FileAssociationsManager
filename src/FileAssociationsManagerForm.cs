@@ -27,19 +27,9 @@ namespace RD_AAOW
 		private void MainForm_Load (object sender, EventArgs e)
 			{
 			// Настройка контролов
-			/*this.Text = ProgramDescription.AssemblyTitle;*/
 			this.Text = RDGenerics.DefaultAssemblyVisibleName;
 			RDGenerics.LoadWindowDimensions (this);
 
-			/*LanguageCombo.Items.AddRange (RDLocale.LanguagesNames);
-			try
-				{
-				LanguageCombo.SelectedIndex = (int)RDLocale.CurrentLanguage;
-				}
-			catch
-				{
-				LanguageCombo.SelectedIndex = 0;
-				}*/
 			MLanguage_Click (null, null);
 
 			MainTable.Columns.Add ("Entries", "Entries");
@@ -110,16 +100,6 @@ namespace RD_AAOW
 			// Обновление таблицы
 			UpdateTable ();
 			}
-
-		/*// Изменение размера окна
-		private void MainForm_Resize (object sender, EventArgs e)
-			{
-			MainTable.Width = this.Width - 32;
-			MainTable.Height = this.Height - 196;
-
-			ButtonsPanel.Top = this.Height - 147;
-			ButtonsPanel.Left = (this.Width - ButtonsPanel.Width) / 2 - 4;
-			}*/
 
 		// Обновление таблицы
 		private void UpdateTable ()
@@ -413,24 +393,6 @@ namespace RD_AAOW
 			MApply_Click (null, null);
 			}
 
-		/*private void MainTable_KeyDown (object sender, KeyEventArgs e)
-			{
-			switch (e.KeyCode)
-				{
-				case Keys.Return:
-					EditRecord_Click (null, null);
-					break;
-
-				case Keys.Insert:
-					AddRecord_Click (null, null);
-					break;
-
-				case Keys.Delete:
-					DeleteRecord_Click (null, null);
-					break;
-				}
-			}*/
-
 		// Выбор текущей базы
 		private void BasesCombo_SelectedIndexChanged (object sender, EventArgs e)
 			{
@@ -470,7 +432,6 @@ namespace RD_AAOW
 			}
 
 		// Запрос справки
-		/*private void GetHelp_Click (object sender, EventArgs e)*/
 		private void MAppAbout_Click (object sender, EventArgs e)
 			{
 			RDInterface.ShowAbout (false);
@@ -505,12 +466,8 @@ namespace RD_AAOW
 			}
 
 		// Локализация формы
-		/*private void LanguageCombo_SelectedIndexChanged (object sender, EventArgs e)*/
 		private void MLanguage_Click (object sender, EventArgs e)
 			{
-			/*// Сохранение языка
-			RDLocale.CurrentLanguage = (RDLanguages)LanguageCombo.SelectedIndex;*/
-
 			// Запрос языка
 			if ((sender != null) && !RDInterface.MessageBox ())
 				return;
@@ -520,10 +477,6 @@ namespace RD_AAOW
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("FEMF_OFDialogFilter");
 
 			RDLocale.SetControlsText (this);
-			/*RDLocale.SetControlsText (ButtonsPanel);
-			AddRecord.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Add);
-			EditRecord.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Edit);
-			Exit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);*/
 
 			MAction.Text = RDLocale.GetText ("MActionText");
 			MAddRecord.Text = RDLocale.GetText ("ButtonsPanel_AddRecord");

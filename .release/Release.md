@@ -1,4 +1,4 @@
-_Changes for v 3.3_:
+_Changes for v 3.3.1_:
+- Offline help has been replaced with the PDF format;
 - Buttons panel has been replaced with the regular window menu;
-- Editor windows can now remember their positions;
-- App has been migrated to `.NET 10`
+- Editor windows can now remember their positions
