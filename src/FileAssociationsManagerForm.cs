@@ -495,7 +495,7 @@ namespace RD_AAOW
 			MExit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
 
 			MHelp.Text = RDLocale.GetText ("MHelpText");
-			MLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguageNC);
+			MLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
 			MAppAbout.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
 
 			UpdateResults ();
