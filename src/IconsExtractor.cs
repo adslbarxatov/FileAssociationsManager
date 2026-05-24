@@ -49,8 +49,8 @@ namespace RD_AAOW
 				return selectedIconNumber;
 				}
 			}
-		private int selectedIconNumber = -1;    // Выбранная иконка
-		private decimal currentPage = 0;        // Страница, на которой она расположена
+		private int selectedIconNumber = -1;	// Выбранная иконка
+		private decimal currentPage = 0;		// Страница, на которой она расположена
 
 		/// <summary>
 		/// Возвращает путь к файлу, в котором содержится выбранная иконка
@@ -105,8 +105,10 @@ namespace RD_AAOW
 			SelectButton.Left = this.Width / 2 - SelectButton.Width - 6;
 			AbortButton.Left = this.Width / 2 + 6;
 
-			AbortButton.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
-			PageLabel.Text = RDLocale.GetText ("IE_PageLabel");
+			/*AbortButton. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
+			PageLabel. Text = RDLocale.GetText ("IE_PageLabel");*/
+			RDLocale.SetDefaultControlText (AbortButton, RDLDefaultTexts.Button_Cancel);
+			RDLocale.SetControlText (PageLabel, "IE_PageLabel");
 
 			// Запуск
 			this.Text = RDLocale.GetText ("IE_Title");
@@ -139,7 +141,7 @@ namespace RD_AAOW
 			for (UInt32 i = 0; i < iconsCount; i++)
 				{
 				_ = ExtractIconExA (OFDialog.FileName, (Int32)i, ref bigIcon, ref smallIcon, 1);
-				icons.Add (Icon.FromHandle (bigIcon).ToBitmap ());      // Если делать проще, теряется альфа-канал
+				icons.Add (Icon.FromHandle (bigIcon).ToBitmap ());	// Если делать проще, теряется альфа-канал
 				}
 
 			// Сборка изображения
@@ -213,7 +215,7 @@ namespace RD_AAOW
 
 				selectedIconNumber = (int)selectedNumber;
 				currentPage = PageNumber.Value;
-				PageNumber_ValueChanged (null, null);   // Перерисовка
+				PageNumber_ValueChanged (null, null);	// Перерисовка
 				}
 			}
 

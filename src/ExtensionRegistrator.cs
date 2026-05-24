@@ -47,9 +47,16 @@ namespace RD_AAOW
 			// Настройка контролов
 			this.Text = RDLocale.GetText ("ER_Title");
 
-			RDLocale.SetControlsText (this);
-			Apply.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply);
-			Abort.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
+			/*RDLocale.SetControlsText (this);
+			Apply. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply);
+			Abort. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);*/
+			RDLocale.SetControlText (this.Name, AttentionLabel);
+			RDLocale.SetControlText (this.Name, ExecutableLabel);
+			RDLocale.SetControlText (this.Name, ExtensionLabel);
+			RDLocale.SetControlText (this.Name, IconLabel);
+			RDLocale.SetControlText (this.Name, TypeLabel);
+			RDLocale.SetDefaultControlText (Apply, RDLDefaultTexts.Button_Apply);
+			RDLocale.SetDefaultControlText (Abort, RDLDefaultTexts.Button_Cancel);
 
 			// Запуск
 			this.ShowDialog ();

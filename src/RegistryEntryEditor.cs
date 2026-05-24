@@ -71,10 +71,19 @@ namespace RD_AAOW
 			// Локализация
 			this.Text = RDLocale.GetText ("REE_Title");
 
-			RDLocale.SetControlsText (this);
-			Apply.Text = RDLocale.GetDefaultText (New ? RDLDefaultTexts.Button_Add :
+			/*RDLocale.SetControlsText (this);
+			Apply. Text = RDLocale.GetDefaultText (New ? RDLDefaultTexts.Button_Add :
 				RDLDefaultTexts.Button_Apply);
-			Abort.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
+			Abort. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);*/
+			RDLocale.SetControlText (this.Name, EntryPath);
+			RDLocale.SetControlText (this.Name, NameMustBeDeleted);
+			RDLocale.SetControlText (this.Name, ParameterName);
+			RDLocale.SetControlText (this.Name, ParameterType);
+			RDLocale.SetControlText (this.Name, ParameterValue);
+			RDLocale.SetControlText (this.Name, PathMustBeDeleted);
+			RDLocale.SetDefaultControlText (Apply, New ? RDLDefaultTexts.Button_Add :
+				RDLDefaultTexts.Button_Apply);
+			RDLocale.SetDefaultControlText (Abort, RDLDefaultTexts.Button_Cancel);
 
 			// Запуск
 			this.ShowDialog ();

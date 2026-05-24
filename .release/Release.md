@@ -1,6 +1,6 @@
 _en_us_
 
-- Internal assemblies have been updated;
+- Internal assemblies have been updated; 
 - Buttons panel has been replaced with the regular window menu
 
 ⁂
