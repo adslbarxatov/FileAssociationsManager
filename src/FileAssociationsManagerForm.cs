@@ -476,7 +476,6 @@ namespace RD_AAOW
 			OFDialog.Title = SFDialog.Title = RDLocale.GetText ("FEMF_OFDialogTitle");
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("FEMF_OFDialogFilter");
 
-			/*RDLocale.SetControlsText (this);*/
 			RDLocale.SetControlText (this.Name, BaseLabel);
 
 			MAction.Text = RDLocale.GetText ("MActionText");

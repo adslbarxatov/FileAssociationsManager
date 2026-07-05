@@ -47,9 +47,6 @@ namespace RD_AAOW
 			// Настройка контролов
 			this.Text = RDLocale.GetText ("ER_Title");
 
-			/*RDLocale.SetControlsText (this);
-			Apply. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Apply);
-			Abort. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);*/
 			RDLocale.SetControlText (this.Name, AttentionLabel);
 			RDLocale.SetControlText (this.Name, ExecutableLabel);
 			RDLocale.SetControlText (this.Name, ExtensionLabel);

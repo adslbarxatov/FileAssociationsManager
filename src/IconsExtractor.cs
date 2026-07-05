@@ -105,8 +105,6 @@ namespace RD_AAOW
 			SelectButton.Left = this.Width / 2 - SelectButton.Width - 6;
 			AbortButton.Left = this.Width / 2 + 6;
 
-			/*AbortButton. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);
-			PageLabel. Text = RDLocale.GetText ("IE_PageLabel");*/
 			RDLocale.SetDefaultControlText (AbortButton, RDLDefaultTexts.Button_Cancel);
 			RDLocale.SetControlText (PageLabel, "IE_PageLabel");
 

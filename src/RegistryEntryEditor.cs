@@ -71,10 +71,6 @@ namespace RD_AAOW
 			// Локализация
 			this.Text = RDLocale.GetText ("REE_Title");
 
-			/*RDLocale.SetControlsText (this);
-			Apply. Text = RDLocale.GetDefaultText (New ? RDLDefaultTexts.Button_Add :
-				RDLDefaultTexts.Button_Apply);
-			Abort. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel);*/
 			RDLocale.SetControlText (this.Name, EntryPath);
 			RDLocale.SetControlText (this.Name, NameMustBeDeleted);
 			RDLocale.SetControlText (this.Name, ParameterName);
