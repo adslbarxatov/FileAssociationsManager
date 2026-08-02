@@ -40,7 +40,7 @@ namespace RD_AAOW
 			MainTable.ContextMenuStrip.Items.Add (MApply.Text, null, MApply_Click);
 			MainTable.ContextMenuStrip.Items.Add (MDeleteRecord.Text, null, MDeleteRecord_Click);
 
-			// Миграция из FEM
+			/*// Миграция из FEM
 			if (!RDGenerics.GetSettings ("MigrationDone", false))
 				{
 				RDGenerics.SetSettings ("MigrationDone", true);
@@ -53,7 +53,7 @@ namespace RD_AAOW
 				// Получение списка
 				int idx = femPath.IndexOf ('\t');
 				femPath = femPath.Substring (0, idx) + "\\REBases";
-				string[] files = RegistryEntriesBaseManager.GetFASets (femPath);
+				string[] files = RegistryEntriesBaseManager.Get FASets (femPath);
 
 				// Копирование файлов
 				for (int i = 0; i < files.Length; i++)
@@ -65,24 +65,45 @@ namespace RD_AAOW
 						}
 					catch { }
 					}
-				}
+				}*/
 
 			// Инициализация баз реестровых записей
-			if (Directory.Exists (RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory))
-				{
-				string[] files = RegistryEntriesBaseManager.GetFASets ();
+			/*if (Directory.Exists (RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory))
+				{*/
+			string[] files = RegistryEntriesBaseManager.GetFASets ();
 
-				for (int i = 0; i < files.Length; i++)
+			for (int i = 0; i < files.Length; i++)
+				{
+				RegistryEntriesBaseManager re =
+					new RegistryEntriesBaseManager (files[i], false);
+				if (re.IsInited)
+					rebm.Add (re);
+				}
+			/*}*/
+
+			/*// Контроль
+			control:
+			if (rebm.Count == 0)
+				{
+				if (!AddBaseMethod ())
 					{
-					RegistryEntriesBaseManager re =
-						new RegistryEntriesBaseManager (Path.GetFileNameWithoutExtension (files[i]), false);
-					if (re.IsInited)
-						rebm.Add (re);
+					this.Close ();
+					return;
 					}
 				}
 
-			// Контроль
-			control:
+			// Загрузка списка
+			for (int i = 0; i < rebm.Count; i++)
+				BasesCombo.Items.Add (rebm[i].BaseName);
+			BasesCombo.SelectedIndex = 0;
+
+			// Обновление таблицы
+			UpdateTable ();*/
+			}
+
+		private void MainForm_Shown (object sender, EventArgs e)
+			{
+			// Добавление базы при первичном запуске
 			if (rebm.Count == 0)
 				{
 				if (!AddBaseMethod ())
@@ -167,9 +188,18 @@ namespace RD_AAOW
 
 		private void FileAssociationsManagerForm_FormClosing (object sender, FormClosingEventArgs e)
 			{
-			RDMessageButtons res = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
-				"SaveBasesMessage", RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No,
-				RDLDefaultTexts.Button_Cancel);
+			// Запрос применения изменений
+			bool changed = false;
+			for (int i = 0; i < rebm.Count; i++)
+				changed = changed || rebm[i].Changed;
+
+			RDMessageButtons res;
+			if (changed)
+				res = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.CenterText,
+					"SaveBasesMessage", RDLDefaultTexts.Button_Yes, RDLDefaultTexts.Button_No,
+					RDLDefaultTexts.Button_Cancel);
+			else
+				res = RDMessageButtons.ButtonTwo;
 
 			// Сохранение баз
 			if (res == RDMessageButtons.ButtonOne)
@@ -413,6 +443,8 @@ namespace RD_AAOW
 				return false;
 
 			// Попытка создания
+			name = RDGenerics.GetStoragePath (true, RegistryEntriesBaseManager.BasesSubdirectory) + name +
+				RegistryEntriesBaseManager.FASetFileExtension2;
 			RegistryEntriesBaseManager re = new RegistryEntriesBaseManager (name, true);
 			if (!re.IsInited)
 				{

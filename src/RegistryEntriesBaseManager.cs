@@ -18,8 +18,18 @@ namespace RD_AAOW
 		// Сплиттер записей в базе
 		private char[] baseFileSplitters = ['\x1'];
 
-		// Флаг указывает, что в базу были внесены изменения
-		private bool changed = true;
+		/// <summary>
+		/// Флаг указывает, что в базу были внесены изменения
+		/// </summary>
+		public bool Changed
+			{
+			get
+				{
+				return baseChanged;
+				}
+			}
+		private bool presentationChanged = true;
+		private bool baseChanged = false;
 
 		// Список представлений записей в базе
 		private List<string> ebp = [];
@@ -33,7 +43,8 @@ namespace RD_AAOW
 		/// <summary>
 		/// Новое расширение имени файла набора расширений файлов
 		/// </summary>
-		public static string FASetFileExtension
+		public const string FASetFileExtension2 = ".fas";
+		/*public static string FASetFileExtension
 			{
 			get
 				{
@@ -44,7 +55,7 @@ namespace RD_AAOW
 			".fas",
 			".reu",
 			".reb",
-			];
+			];*/
 
 		/// <summary>
 		/// Субдиректория для хранения сохранённых баз реестровых записей
@@ -56,42 +67,51 @@ namespace RD_AAOW
 		/// </summary>
 		public static string[] GetFASets ()
 			{
-			return GetFASets (RDGenerics.AppStartupPath + BasesSubdirectory);
+			/*return GetFASets (RDGenerics.AppStartupPath + BasesSubdirectory);
 			}
 
 		/// <summary>
 		/// Метод формирует список файлов наборов сопоставлений для загрузки
 		/// </summary>
 		public static string[] GetFASets (string Path)
-			{
-			List<string> files = [];
+			{*/
+			string[] files = [];
 
-			for (int i = 0; i < setsFormats.Length; i++)
+			/*for (int i = 0; i < setsFormats.Length; i++)
+				{*/
+			try
 				{
-				try
-					{
-					files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));
-					}
-				catch { }
-				}
+				// Новая схема
+				// !!! Временное решение: директория создаётся во избежание выпуска исключения
+				/*files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));*/
+				files = Directory.GetFiles (RDGenerics.GetStoragePath (true, BasesSubdirectory),
+					"*" + FASetFileExtension2);
 
-			return files.ToArray ();
+				// Старая схема
+				if (files.Length < 1)
+					files = Directory.GetFiles (RDGenerics.StartupPath + BasesSubdirectory,
+						"*" + FASetFileExtension2);
+				}
+			catch { }
+			/*}*/
+
+			return files;
 			}
 
 		/// <summary>
 		/// Конструктор. Загружает или создаёт набор сопоставлений файлов
 		/// </summary>
-		/// <param name="BaseName">Имя создаваемой базы</param>
+		/// <param name="BasePath">Имя создаваемой базы</param>
 		/// <param name="New">Флаг указывает на необходимость создания нового набора</param>
-		public RegistryEntriesBaseManager (string BaseName, bool New)
+		public RegistryEntriesBaseManager (string BasePath, bool New)
 			{
 			// Сохранение параметров
-			baseName = BaseName;
+			basePath = BasePath;
 
 			// Загрузка базы
 
 			// Если загрузка завершается с ошибкой
-			if (New || (LoadBase () != 0))
+			if (New || !LoadBase ())
 				{
 				// Пробуем создать базу
 				if (!SaveBase (false))
@@ -103,39 +123,70 @@ namespace RD_AAOW
 			}
 
 		// Метод загружает базу
-		// Возвращает 0 в случае успеха, -1 в случае ошибки, 1 при необходимости пересохранить базу
-		private int LoadBase ()
+		// Возвращает true в случае успеха
+		private bool LoadBase ()
 			{
 			// Попытка открытия
-			int i;
+			/*int i;
 			for (i = 0; i < setsFormats.Length; i++)
+				{*/
+			try
 				{
-				try
-					{
-					FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\" +
-						baseName + setsFormats[i], FileMode.Open);
-					SR = new StreamReader (FS, RDGenerics.GetEncoding ((i == 2) ? RDEncodings.CP1251 :
-						RDEncodings.UTF8));
-					break;
-					}
-				catch { }
+				/*FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\" +
+					baseName + setsFormats[i], FileMode.Open);
+				SR = new StreamReader (FS, RDGenerics.GetEncoding ((i == 2) ? RDEncodings.CP1251 :
+					RDEncodings.UTF8));
+				break;*/
+				FS = new FileStream (basePath, FileMode.Open);
 				}
+			catch
+				{
+				return false;
+				}
+			/*}*/
+			SR = new StreamReader (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
 
-			if (i >= setsFormats.Length)
+			// Обновление пути со старой схемы
+			string recommendedPath = RDGenerics.GetStoragePath (true, BasesSubdirectory);
+			if (!basePath.StartsWith (recommendedPath))
+				basePath = recommendedPath + Path.GetFileName (basePath);
+
+			/*if (i >= setsFormats.Length)
 				return -1;
-			bool old = (i > 0);
+			bool old = (i > 0);*/
 
 			// Чтение файла
-			SR.ReadLine ();     // Версия
+			RDFormatSignatures version;
+			string s = SR.ReadLine ();
+			try
+				{
+				version = (RDFormatSignatures)UInt16.Parse (s);
+				}
+			catch
+				{
+				version = RDFormatSignatures.FASv1;
+				}
+
+			switch (version)
+				{
+				case RDFormatSignatures.FASv1:
+				case RDFormatSignatures.FASv2:
+					break;
+
+				default:
+					return false;
+				}
+
+			/*SR.ReadLine ();		// Версия*/
 
 			while (!SR.EndOfStream)
 				{
-				string s = SR.ReadLine ();
+				s = SR.ReadLine ();
 				string[] values = s.Split (baseFileSplitters);
 				// Пустые поля не удалять, т.к. они отвечают за значения по умолчанию
 
 				if (values.Length != 6)
-					continue;   // Если вдруг попадётся битая запись, пропустить её
+					continue;	// Если вдруг попадётся битая запись, пропустить её
 
 				RegistryValueTypes valueType = RegistryValueTypes.REG_SZ;
 				try
@@ -147,7 +198,7 @@ namespace RD_AAOW
 				RegistryEntry re = new RegistryEntry (values[0], values[1], values[2], valueType,
 					values[4] != "0", values[5] != "0");
 				if (!re.IsValid)
-					continue;   // Аналогично
+					continue;	// Аналогично
 
 				// В противном случае добавляем запись
 				entries.Add (re);
@@ -157,7 +208,7 @@ namespace RD_AAOW
 			SR.Close ();
 			FS.Close ();
 
-			// Постобработка
+			/*// Постобработка
 			if (old)
 				{
 				try
@@ -170,7 +221,8 @@ namespace RD_AAOW
 				catch { }
 				}
 
-			return (old ? 1 : 0);
+			return (old ? 1 : 0);*/
+			return true;
 			}
 
 		/// <summary>
@@ -180,10 +232,10 @@ namespace RD_AAOW
 		public bool SaveBase (bool Update)
 			{
 			// Постсортировка
-			if (changed)
+			if (baseChanged)
 				entries.Sort ();
 
-			// Контроль наличия субдиректории
+			/*// Контроль наличия субдиректории
 			if (!Directory.Exists (BasesSubdirectory))
 				{
 				try
@@ -194,16 +246,16 @@ namespace RD_AAOW
 					{
 					return false;
 					}
-				}
+				}*/
 
 			// Попытка открытия базы
-			string fileName = RDGenerics.AppStartupPath + BasesSubdirectory + "\\" + baseName + setsFormats[0];
-			if (!Update && File.Exists (fileName))
+			/*string fileName = RDGenerics.AppStartupPath + BasesSubdirectory + "\\" + baseName + setsFormats[0];*/
+			if (!Update && File.Exists (basePath))
 				return false;
 
 			try
 				{
-				FS = new FileStream (fileName, FileMode.Create);
+				FS = new FileStream (basePath, FileMode.Create);
 				// Перезаписывает недоступный файл при необходимости
 				}
 			catch
@@ -213,8 +265,9 @@ namespace RD_AAOW
 			SW = new StreamWriter (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
 
 			// Запись
-			SW.Write (RDGenerics.DefaultAssemblyTitle + "; timestamp: " +
-				DateTime.Now.ToString ("dd.MM.yyyy, HH:mm") + RDLocale.RN);
+			/*SW.Write (RDGenerics.DefaultAssemblyTitle + "; timestamp: " +
+				DateTime.Now.ToString ("dd.MM.yyyy, HH:mm") + RDLocale.RN);*/
+			SW.Write (((UInt16)RDFormatSignatures.FASActual).ToString () + RDLocale.RN);
 
 			for (int i = 0; i < entries.Count; i++)
 				{
@@ -251,10 +304,10 @@ namespace RD_AAOW
 			{
 			get
 				{
-				return baseName;
+				return Path.GetFileNameWithoutExtension (basePath);
 				}
 			}
-		private string baseName = "";
+		private string basePath = "";
 
 		/// <summary>
 		/// Возвращает представление списка записей базы
@@ -263,7 +316,7 @@ namespace RD_AAOW
 			{
 			get
 				{
-				if (isInited && changed)    // Выполнять обновление, только если в базу вносились изменения
+				if (isInited && presentationChanged)	// Выполнять обновление, только если в базу вносились изменения
 					{
 					// Сортировка
 					entries.Sort ();
@@ -281,7 +334,7 @@ namespace RD_AAOW
 							(entries[i].NameMustBeDeleted ? "; -RV-" : ""));
 						}
 
-					changed = false;
+					presentationChanged = false;
 					}
 
 				return ebp;
@@ -423,7 +476,7 @@ namespace RD_AAOW
 			// Завершено
 			SR.Close ();
 			FS.Close ();
-			changed = (entriesCounter != 0);
+			baseChanged = presentationChanged = (entriesCounter != 0);
 			return entriesCounter;
 			}
 
@@ -501,7 +554,9 @@ namespace RD_AAOW
 				return false;
 
 			entries.Add (Entry);
-			return (changed = true);
+
+			baseChanged = presentationChanged = true;
+			return true;
 			}
 
 		/// <summary>
@@ -516,7 +571,9 @@ namespace RD_AAOW
 				return false;
 
 			entries.RemoveAt ((int)EntryNumber);
-			return (changed = true);
+
+			baseChanged = presentationChanged = true;
+			return true;
 			}
 
 		/// <summary>
