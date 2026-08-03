@@ -1,6 +1,6 @@
 _en_us_
 
-- Updated the storage method for associations bases;
+- Updated the storage method for associations bases; 
 - Removed `.reb` / `.reu` autoconversion;
 - App will not ask about applying changes when no changes done to bases;
 - Fixed some app startup bugs;

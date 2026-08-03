@@ -505,7 +505,7 @@ namespace RD_AAOW
 				return;
 
 			// Локализация
-			OFDialog.Title = SFDialog.Title = RDLocale.GetText ("FEMF_OFDialogTitle");
+			/*OFDialog. Title = SFDialog. Title = RDLocale.GetText ("FEMF_OFDialogTitle");*/
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("FEMF_OFDialogFilter");
 
 			RDLocale.SetControlText (this.Name, BaseLabel);

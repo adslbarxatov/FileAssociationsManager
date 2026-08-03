@@ -111,7 +111,7 @@ namespace RD_AAOW
 			// Загрузка базы
 
 			// Если загрузка завершается с ошибкой
-			if (New || !LoadBase ())
+			if (New || !LoadBase () || updateRequired)
 				{
 				// Пробуем создать базу
 				if (!SaveBase (false))
@@ -149,7 +149,10 @@ namespace RD_AAOW
 			// Обновление пути со старой схемы
 			string recommendedPath = RDGenerics.GetStoragePath (true, BasesSubdirectory);
 			if (!basePath.StartsWith (recommendedPath))
+				{
 				basePath = recommendedPath + Path.GetFileName (basePath);
+				updateRequired = true;
+				}
 
 			/*if (i >= setsFormats.Length)
 				return -1;
@@ -224,6 +227,7 @@ namespace RD_AAOW
 			return (old ? 1 : 0);*/
 			return true;
 			}
+		private bool updateRequired = false;
 
 		/// <summary>
 		/// Метод выполняет сохранение базы в файл

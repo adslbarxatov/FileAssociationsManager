@@ -90,7 +90,7 @@ namespace RD_AAOW
 			RDGenerics.LoadWindowDimensions (this);
 
 			// Настройка контролов
-			OFDialog.Title = RDLocale.GetText ("IE_OFDialogTitle");
+			/*OFDialog. Title = RDLocale.GetText ("IE_OFDialogTitle");*/
 			OFDialog.Filter = RDLocale.GetText ("IE_OFDialogFilter");
 
 			MainPicture.Width = (int)(iconPositionWidth * iconsHorizontalCount + 4);
