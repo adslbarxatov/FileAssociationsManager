@@ -38,7 +38,6 @@ namespace RD_AAOW
 			this.CancelButton = Abort;
 			RDGenerics.LoadWindowDimensions (this);
 
-			/*OFDialog. Title = RDLocale.GetText ("ER_OFDialogText");*/
 			OFDialog.Filter = RDLocale.GetText ("ER_OFDialogFilter");
 
 			// Сохранение параметров

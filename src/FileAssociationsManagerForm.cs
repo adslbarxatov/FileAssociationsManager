@@ -40,36 +40,7 @@ namespace RD_AAOW
 			MainTable.ContextMenuStrip.Items.Add (MApply.Text, null, MApply_Click);
 			MainTable.ContextMenuStrip.Items.Add (MDeleteRecord.Text, null, MDeleteRecord_Click);
 
-			/*// Миграция из FEM
-			if (!RDGenerics.GetSettings ("MigrationDone", false))
-				{
-				RDGenerics.SetSettings ("MigrationDone", true);
-
-				// Получение пути установки
-				string femPath = RDGenerics.GetDPArrayRegistryValue ("FileExtensionsManager");
-				if (string.IsNullOrWhiteSpace (femPath))
-					goto control;
-
-				// Получение списка
-				int idx = femPath.IndexOf ('\t');
-				femPath = femPath.Substring (0, idx) + "\\REBases";
-				string[] files = RegistryEntriesBaseManager.Get FASets (femPath);
-
-				// Копирование файлов
-				for (int i = 0; i < files.Length; i++)
-					{
-					try
-						{
-						File.Copy (files[i], RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory +
-							"\\" + Path.GetFileName (files[i]));
-						}
-					catch { }
-					}
-				}*/
-
 			// Инициализация баз реестровых записей
-			/*if (Directory.Exists (RDGenerics.AppStartupPath + RegistryEntriesBaseManager.BasesSubdirectory))
-				{*/
 			string[] files = RegistryEntriesBaseManager.GetFASets ();
 
 			for (int i = 0; i < files.Length; i++)
@@ -79,26 +50,6 @@ namespace RD_AAOW
 				if (re.IsInited)
 					rebm.Add (re);
 				}
-			/*}*/
-
-			/*// Контроль
-			control:
-			if (rebm.Count == 0)
-				{
-				if (!AddBaseMethod ())
-					{
-					this.Close ();
-					return;
-					}
-				}
-
-			// Загрузка списка
-			for (int i = 0; i < rebm.Count; i++)
-				BasesCombo.Items.Add (rebm[i].BaseName);
-			BasesCombo.SelectedIndex = 0;
-
-			// Обновление таблицы
-			UpdateTable ();*/
 			}
 
 		private void MainForm_Shown (object sender, EventArgs e)
@@ -444,7 +395,7 @@ namespace RD_AAOW
 
 			// Попытка создания
 			name = RDGenerics.GetStoragePath (true, RegistryEntriesBaseManager.BasesSubdirectory) + name +
-				RegistryEntriesBaseManager.FASetFileExtension2;
+				RegistryEntriesBaseManager.FASetFileExtension;
 			RegistryEntriesBaseManager re = new RegistryEntriesBaseManager (name, true);
 			if (!re.IsInited)
 				{
@@ -505,7 +456,6 @@ namespace RD_AAOW
 				return;
 
 			// Локализация
-			/*OFDialog. Title = SFDialog. Title = RDLocale.GetText ("FEMF_OFDialogTitle");*/
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("FEMF_OFDialogFilter");
 
 			RDLocale.SetControlText (this.Name, BaseLabel);

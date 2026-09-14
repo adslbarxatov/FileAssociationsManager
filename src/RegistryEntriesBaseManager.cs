@@ -43,19 +43,7 @@ namespace RD_AAOW
 		/// <summary>
 		/// Новое расширение имени файла набора расширений файлов
 		/// </summary>
-		public const string FASetFileExtension2 = ".fas";
-		/*public static string FASetFileExtension
-			{
-			get
-				{
-				return setsFormats[0];
-				}
-			}
-		private static string[] setsFormats = [
-			".fas",
-			".reu",
-			".reb",
-			];*/
+		public const string FASetFileExtension = ".fas";
 
 		/// <summary>
 		/// Субдиректория для хранения сохранённых баз реестровых записей
@@ -67,33 +55,21 @@ namespace RD_AAOW
 		/// </summary>
 		public static string[] GetFASets ()
 			{
-			/*return GetFASets (RDGenerics.AppStartupPath + BasesSubdirectory);
-			}
-
-		/// <summary>
-		/// Метод формирует список файлов наборов сопоставлений для загрузки
-		/// </summary>
-		public static string[] GetFASets (string Path)
-			{*/
 			string[] files = [];
 
-			/*for (int i = 0; i < setsFormats.Length; i++)
-				{*/
 			try
 				{
 				// Новая схема
 				// !!! Временное решение: директория создаётся во избежание выпуска исключения
-				/*files.AddRange (Directory.GetFiles (Path, "*" + setsFormats[i]));*/
 				files = Directory.GetFiles (RDGenerics.GetStoragePath (true, BasesSubdirectory),
-					"*" + FASetFileExtension2);
+					"*" + FASetFileExtension);
 
 				// Старая схема
 				if (files.Length < 1)
 					files = Directory.GetFiles (RDGenerics.StartupPath + BasesSubdirectory,
-						"*" + FASetFileExtension2);
+						"*" + FASetFileExtension);
 				}
 			catch { }
-			/*}*/
 
 			return files;
 			}
@@ -127,23 +103,14 @@ namespace RD_AAOW
 		private bool LoadBase ()
 			{
 			// Попытка открытия
-			/*int i;
-			for (i = 0; i < setsFormats.Length; i++)
-				{*/
 			try
 				{
-				/*FS = new FileStream (RDGenerics.AppStartupPath + BasesSubdirectory + "\\" +
-					baseName + setsFormats[i], FileMode.Open);
-				SR = new StreamReader (FS, RDGenerics.GetEncoding ((i == 2) ? RDEncodings.CP1251 :
-					RDEncodings.UTF8));
-				break;*/
 				FS = new FileStream (basePath, FileMode.Open);
 				}
 			catch
 				{
 				return false;
 				}
-			/*}*/
 			SR = new StreamReader (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
 
 			// Обновление пути со старой схемы
@@ -153,10 +120,6 @@ namespace RD_AAOW
 				basePath = recommendedPath + Path.GetFileName (basePath);
 				updateRequired = true;
 				}
-
-			/*if (i >= setsFormats.Length)
-				return -1;
-			bool old = (i > 0);*/
 
 			// Чтение файла
 			RDFormatSignatures version;
@@ -179,8 +142,6 @@ namespace RD_AAOW
 				default:
 					return false;
 				}
-
-			/*SR.ReadLine ();		// Версия*/
 
 			while (!SR.EndOfStream)
 				{
@@ -211,20 +172,6 @@ namespace RD_AAOW
 			SR.Close ();
 			FS.Close ();
 
-			/*// Постобработка
-			if (old)
-				{
-				try
-					{
-					File.Move (RDGenerics.AppStartupPath + BasesSubdirectory + "\\"
-						+ baseName + setsFormats[i],
-						RDGenerics.AppStartupPath + BasesSubdirectory + "\\"
-						+ baseName + ".bak");
-					}
-				catch { }
-				}
-
-			return (old ? 1 : 0);*/
 			return true;
 			}
 		private bool updateRequired = false;
@@ -239,21 +186,7 @@ namespace RD_AAOW
 			if (baseChanged)
 				entries.Sort ();
 
-			/*// Контроль наличия субдиректории
-			if (!Directory.Exists (BasesSubdirectory))
-				{
-				try
-					{
-					Directory.CreateDirectory (BasesSubdirectory);
-					}
-				catch
-					{
-					return false;
-					}
-				}*/
-
 			// Попытка открытия базы
-			/*string fileName = RDGenerics.AppStartupPath + BasesSubdirectory + "\\" + baseName + setsFormats[0];*/
 			if (!Update && File.Exists (basePath))
 				return false;
 
@@ -269,17 +202,16 @@ namespace RD_AAOW
 			SW = new StreamWriter (FS, RDGenerics.GetEncoding (RDEncodings.UTF8));
 
 			// Запись
-			/*SW.Write (RDGenerics.DefaultAssemblyTitle + "; timestamp: " +
-				DateTime.Now.ToString ("dd.MM.yyyy, HH:mm") + RDLocale.RN);*/
 			SW.Write (((UInt16)RDFormatSignatures.FASActual).ToString () + RDLocale.RN);
 
+			string sp = baseFileSplitters[0].ToString ();
 			for (int i = 0; i < entries.Count; i++)
 				{
-				SW.Write (entries[i].ValuePath + baseFileSplitters[0].ToString () +
-					entries[i].ValueName + baseFileSplitters[0].ToString () +
-					entries[i].ValueObject + baseFileSplitters[0].ToString () +
-					((uint)(entries[i].ValueType)).ToString () + baseFileSplitters[0].ToString () +
-					(entries[i].PathMustBeDeleted ? "1" : "0") + baseFileSplitters[0].ToString () +
+				SW.Write (entries[i].ValuePath + sp +
+					entries[i].ValueName + sp +
+					entries[i].ValueObject + sp +
+					((uint)(entries[i].ValueType)).ToString () + sp +
+					(entries[i].PathMustBeDeleted ? "1" : "0") + sp +
 					(entries[i].NameMustBeDeleted ? "1" : "0") + RDLocale.RN);
 				}
 

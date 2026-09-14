@@ -271,7 +271,7 @@
     <value>Удалить выбранные записи?</value>
   </data>
   <data name="fasfile" xml:space="preserve">
-    <value>Файл набора расширений файлов</value>
+    <value>Файл набора сопоставлений</value>
   </data>
   <data name="SaveBasesMessage" xml:space="preserve">
     <value>Применить выполненные изменения к существующим наборам расширений файлов?</value>
